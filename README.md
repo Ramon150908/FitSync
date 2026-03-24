@@ -1,2 +1,2 @@
-# EvoFit
+# FitSync
 TCC2026
