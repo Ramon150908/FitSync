@@ -15,7 +15,6 @@ $googleEnabled = GOOGLE_CLIENT_ID !== 'SEU_GOOGLE_CLIENT_ID.apps.googleuserconte
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/styles.css" />
   <style>
-    /* Estilos específicos da página de login */
     .auth-wrap {
       min-height: 100vh;
       background: linear-gradient(135deg, #1a1054 0%, #255ff1 100%);
@@ -62,9 +61,7 @@ $googleEnabled = GOOGLE_CLIENT_ID !== 'SEU_GOOGLE_CLIENT_ID.apps.googleuserconte
       margin-bottom: 8px;
     }
 
-    .auth-logo span {
-      color: #255ff1;
-    }
+    .auth-logo span { color: #255ff1; }
 
     .auth-tagline {
       text-align: center;
@@ -89,6 +86,7 @@ $googleEnabled = GOOGLE_CLIENT_ID !== 'SEU_GOOGLE_CLIENT_ID.apps.googleuserconte
       font-size: 16px;
       transition: all 0.3s ease;
       font-family: 'DM Sans', sans-serif;
+      box-sizing: border-box;
     }
 
     .auth-input:focus {
@@ -109,6 +107,7 @@ $googleEnabled = GOOGLE_CLIENT_ID !== 'SEU_GOOGLE_CLIENT_ID.apps.googleuserconte
       cursor: pointer;
       transition: all 0.3s ease;
       box-shadow: 0 8px 25px rgba(37, 95, 241, 0.35);
+      font-family: 'DM Sans', sans-serif;
     }
 
     .btn-primary:hover {
@@ -116,9 +115,7 @@ $googleEnabled = GOOGLE_CLIENT_ID !== 'SEU_GOOGLE_CLIENT_ID.apps.googleuserconte
       box-shadow: 0 12px 30px rgba(37, 95, 241, 0.45);
     }
 
-    .btn-primary:active {
-      transform: scale(0.97);
-    }
+    .btn-primary:active { transform: scale(0.97); }
 
     .btn-google {
       display: flex;
@@ -134,6 +131,7 @@ $googleEnabled = GOOGLE_CLIENT_ID !== 'SEU_GOOGLE_CLIENT_ID.apps.googleuserconte
       color: #333;
       text-decoration: none;
       transition: all 0.3s ease;
+      font-family: 'DM Sans', sans-serif;
     }
 
     .btn-google:hover {
@@ -183,6 +181,9 @@ $googleEnabled = GOOGLE_CLIENT_ID !== 'SEU_GOOGLE_CLIENT_ID.apps.googleuserconte
       border-radius: 10px;
       cursor: pointer;
       transition: all 0.3s ease;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      color: #7a80a8;
     }
 
     .auth-tab.active {
@@ -240,6 +241,7 @@ $googleEnabled = GOOGLE_CLIENT_ID !== 'SEU_GOOGLE_CLIENT_ID.apps.googleuserconte
       <div class="divider"><span>ou</span></div>
       <?php endif; ?>
 
+      <!-- FIX: abas com troca funcional via JS abaixo -->
       <div class="auth-tabs">
         <button class="auth-tab active" id="tabLogin">Entrar</button>
         <button class="auth-tab" id="tabRegister">Cadastrar</button>
@@ -247,15 +249,15 @@ $googleEnabled = GOOGLE_CLIENT_ID !== 'SEU_GOOGLE_CLIENT_ID.apps.googleuserconte
 
       <!-- Formulário de Login -->
       <div class="auth-form" id="formLogin">
-        <input type="email" class="auth-input" id="loginEmail" placeholder="E-mail" autocomplete="email" />
-        <input type="password" class="auth-input" id="loginPassword" placeholder="Senha" autocomplete="current-password" />
+        <input type="email"    class="auth-input" id="loginEmail"    placeholder="E-mail"  autocomplete="email" />
+        <input type="password" class="auth-input" id="loginPassword" placeholder="Senha"   autocomplete="current-password" />
         <button class="btn-primary" id="btnLogin">Entrar na conta</button>
       </div>
 
       <!-- Formulário de Cadastro -->
       <div class="auth-form" id="formRegister" style="display: none;">
-        <input type="text" class="auth-input" id="regName" placeholder="Nome completo" autocomplete="name" />
-        <input type="email" class="auth-input" id="regEmail" placeholder="E-mail" autocomplete="email" />
+        <input type="text"     class="auth-input" id="regName"     placeholder="Nome completo"              autocomplete="name" />
+        <input type="email"    class="auth-input" id="regEmail"    placeholder="E-mail"                     autocomplete="email" />
         <input type="password" class="auth-input" id="regPassword" placeholder="Senha (mínimo 6 caracteres)" autocomplete="new-password" />
         <button class="btn-primary" id="btnRegister">Criar minha conta</button>
       </div>
@@ -268,38 +270,42 @@ $googleEnabled = GOOGLE_CLIENT_ID !== 'SEU_GOOGLE_CLIENT_ID.apps.googleuserconte
 
   <script src="assets/app.js"></script>
   <script>
-    // JavaScript específico para a página de login
-    document.addEventListener('DOMContentLoaded', () => {
-      const tabLogin = document.getElementById('tabLogin');
-      const tabReg = document.getElementById('tabRegister');
-      const formLogin = document.getElementById('formLogin');
-      const formRegister = document.getElementById('formRegister');
-      const authError = document.getElementById('authError');
+  document.addEventListener('DOMContentLoaded', () => {
+    // ── Botões de ação ──────────────────────────────────────────
+    document.getElementById('btnLogin')?.addEventListener('click', handleLogin);
+    document.getElementById('btnRegister')?.addEventListener('click', handleRegister);
 
-      tabLogin.addEventListener('click', () => {
-        tabLogin.classList.add('active');
-        tabReg.classList.remove('active');
-        formLogin.style.display = 'flex';
-        formRegister.style.display = 'none';
-        authError.textContent = '';
-      });
-
-      tabReg.addEventListener('click', () => {
-        tabReg.classList.add('active');
-        tabLogin.classList.remove('active');
-        formLogin.style.display = 'none';
-        formRegister.style.display = 'flex';
-        authError.textContent = '';
-      });
-
-      // Enter para submeter
-      document.getElementById('loginPassword').addEventListener('keydown', e => {
-        if (e.key === 'Enter') handleLogin();
-      });
-      document.getElementById('regPassword').addEventListener('keydown', e => {
-        if (e.key === 'Enter') handleRegister();
-      });
+    // Enter nos campos de senha
+    document.getElementById('loginPassword')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') handleLogin();
     });
+    document.getElementById('regPassword')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') handleRegister();
+    });
+
+    // ── FIX: troca de abas ──────────────────────────────────────
+    const tabLogin    = document.getElementById('tabLogin');
+    const tabRegister = document.getElementById('tabRegister');
+    const formLogin   = document.getElementById('formLogin');
+    const formRegister = document.getElementById('formRegister');
+    const authError   = document.getElementById('authError');
+
+    tabLogin.addEventListener('click', () => {
+      tabLogin.classList.add('active');
+      tabRegister.classList.remove('active');
+      formLogin.style.display    = 'flex';
+      formRegister.style.display = 'none';
+      authError.textContent = '';
+    });
+
+    tabRegister.addEventListener('click', () => {
+      tabRegister.classList.add('active');
+      tabLogin.classList.remove('active');
+      formRegister.style.display = 'flex';
+      formLogin.style.display    = 'none';
+      authError.textContent = '';
+    });
+  });
   </script>
 </body>
 </html>

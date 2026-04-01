@@ -750,3 +750,98 @@ header {
     font-size: 42px;
   }
 }
+/* LOGO */
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 52px;
+  width: auto;
+}
+
+/* Melhorias na lista de alimentos */
+.food-item {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 18px 22px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(26, 16, 84, 0.05);
+}
+
+.food-item:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.food-info {
+  flex: 1;
+}
+
+.food-name {
+  font-weight: 600;
+  font-size: 16.5px;
+  color: var(--navy);
+}
+
+.food-qty {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.food-cal {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 17px;
+}
+/* ====================== SEARCH DROPDOWN (USDA) ====================== */
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 2px solid var(--accent);
+  border-radius: 18px;
+  margin-top: 8px;
+  max-height: 320px;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  display: none;
+}
+
+.search-results.show {
+  display: block;
+}
+
+.search-result-item {
+  padding: 14px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f5f9;
+  transition: all 0.2s;
+}
+
+.search-result-item:hover {
+  background: #f8fbff;
+  padding-left: 24px;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item strong {
+  color: var(--navy);
+  font-size: 15.5px;
+}
+
+.search-result-item small {
+  color: #64748b;
+  font-size: 13px;
+}
