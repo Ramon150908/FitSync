@@ -1,2 +1,0 @@
-# FitSync
-TCC2026
